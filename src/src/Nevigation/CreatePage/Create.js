@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Create.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import InstAI_icon from '../../image/instai_icon.png'
+import InstAI_icon from '../../image/instai_icon.png';
 
 function Create() {
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get('id');
@@ -24,23 +25,6 @@ function Create() {
     console.log(`Field ${fieldName} updated to:`, value);
   };
 
-  const addDevice = () => {
-    const newDevice = { serialNumber: "", deviceName: "" };
-    setFormData((prevData) => ({
-      ...prevData,
-      devices: [...prevData.devices, newDevice],
-    }));
-  };
-
-  const handleDeviceChange = (index, fieldName, value) => {
-    const updatedDevices = [...formData.devices];
-    updatedDevices[index][fieldName] = value;
-    setFormData((prevData) => ({
-      ...prevData,
-      devices: updatedDevices,
-    }));
-  };
-
   const addProject = async () => {
     if (formData.projectName.trim() === "") {
       alert("請輸入專案名稱");
@@ -54,83 +38,58 @@ function Create() {
         alert(response.data);
         handleFormDataChange("projectName", "");
         console.log(response);
+
+        // 導航回去
+        navigate(`/Project?id=${id}&type=1`);
       } catch (error) {
         console.error("Error sending data to backend:", error);
       }
     }
   };
 
+  const enterSolve = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // 避免預設跳轉
+      await addProject(); // non-blocking statement
+    }
+  };
+
   return (
     <div className="create-page">
-
       <div className="create-title-grid">
-
         <div className="create-InstAI-icon">
-          <img  className="create-icon" src={InstAI_icon} alt="instai"  />
+          <img className="create-icon" src={InstAI_icon} alt="instai" />
         </div>
-
         <div className="create-projectPage">
-          <NavLink to={`/Project?id=${id}&type=1`}>
+          <NavLink to={`/Project?id=${id}&type=1`} className="projectPageLink">
             <button className="projectPageButton">返回專案頁面</button>
           </NavLink>
         </div>
-
       </div>
 
       <div className="create-grid-line"></div>
-  
+
       <div className="create-form">
-      <form>
-        <div>
-         <h1 className="create-title">Create Projects</h1>
-        </div>
-        <div className="createProjectName">
-          <label >專案名稱：</label>
-          <input
-            type="text"
-            name="projectName"
-            value={formData.projectName}
-            onChange={(e) => handleFormDataChange("projectName", e.target.value)}
-          />
-        </div>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div>
+            <h1 className="create-title">Create Projects</h1>
+          </div>
+          <div className="createProjectName">
+            <label>專案名稱：</label>
+            <input
+              type="text"
+              name="projectName"
+              value={formData.projectName}
+              onChange={(e) => handleFormDataChange("projectName", e.target.value)}
+              onKeyDown={enterSolve}
+            />
+          </div>
 
-        {/* <div className="createDeviceName"> 
-          <label>設備：</label>
-          {formData.devices.map((device, index) => (
-            <div key={index}>
-              <p>設備 {index + 1}：</p>
-              <input
-                type="text"
-                placeholder="序列號"
-                value={device.serialNumber}
-                onChange={(e) => handleDeviceChange(index, "serialNumber", e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="名稱"
-                value={device.deviceName}
-                onChange={(e) => handleDeviceChange(index, "deviceName", e.target.value)}
-              />
-            </div>
-          ))}
-        </div> 
-         <button type="button" onClick={addDevice}>
-          新增設備
-        </button> */}
-  
-          <button  className="createButton" type="button" onClick={addProject}>
-          新增專案
-        </button>
-
-
-    
-      
-        { /* <NavLink to={`/Step?id=${id}&project=${formData.projectName}`}>
-          <button type="button">skip</button>
-        </NavLink> */}
-      </form>
+          <button className="createButton" type="button" onClick={addProject}>
+            新增專案
+          </button>
+        </form>
       </div>
-     
     </div>
   );
 }

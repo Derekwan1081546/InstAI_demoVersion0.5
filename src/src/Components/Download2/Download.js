@@ -3,9 +3,11 @@ import styles from'./Download.module.css';
 import axios from 'axios';
 import { NavLink, useLocation } from 'react-router-dom';
 import InstAI_icon from "../../image/instai_icon.png";
+import { useNavigate } from 'react-router-dom';
 
 
 function Download2() {
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get('id');
@@ -31,7 +33,7 @@ function Download2() {
     setSelectedFiles(filteredFiles);
 
     try {
-      console.log('发送请求到URL:', 'http://localhost:8080/api/upload/download');//?filename=${filename}&username=${username}
+      console.log('發送请求到URL:', 'http://localhost:8080/api/upload/download');//?filename=${filename}&username=${username}
       // const response = await fetch('http://localhost:8080/api/upload/download', {
       //   method: 'GET',
       //   body: formData,
@@ -48,13 +50,14 @@ function Download2() {
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
+
         })
         .catch(error => {
           console.error(error);
           console.error('文件上傳失敗');
         });
     } catch (error) {
-      console.error('发生错误:', error);
+      console.error('發生错误:', error);
     }
 
     const previews = filteredFiles.map((file) => URL.createObjectURL(file));
@@ -125,6 +128,7 @@ function Download2() {
         // Handle error
       });
       console.log(response);
+      //navigate(`/ReviewImg?id=${id}&projectname=${projectname}`, { state: { imagePreviews } });
     } catch (error) {
       console.error("Error sending data to backend:", error);
     }
