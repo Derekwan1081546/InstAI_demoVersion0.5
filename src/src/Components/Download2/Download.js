@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import styles from'./Download.module.css';
 import axios from 'axios';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -20,49 +20,24 @@ function Download2() {
   const handleFileSelect = async (event) => {
     const files = event.target.files;
     const fileArray = Array.from(files);
-
+  
     // 過濾文件
     const allowedFileTypes = ['image/jpeg', 'image/png'];
     const filteredFiles = fileArray.filter((file) =>
       allowedFileTypes.includes(file.type)
     );
-   
-    const fileNames = filteredFiles.map((file) => file.name);
-
-    setFilename(fileNames);
+ 
     setSelectedFiles(filteredFiles);
-
+  
     try {
-      console.log('發送请求到URL:', 'http://localhost:8080/api/upload/download');
-      //?filename=${filename}&username=${username}
-      // const response = await fetch('http://localhost:8080/api/upload/download', {
-      //   method: 'GET',
-      //   body: formData,
-      // });
-      axios.get(`http://localhost:8080/api/upload/download?filename=${fileNames}&username=${id}`, { responseType: 'blob' })
-        .then(response => {
-          console.log(response.data);
-          alert('download success')
-
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const a = document.createElement('a');
-          a.href = url;
-          a.setAttribute("download",filename);
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-
-        })
-        .catch(error => {
-          console.error(error);
-          console.error('文件上傳失敗');
-        });
+      // 刪掉axios.get
+      console.log("彥君大帥哥");
+      console.log("喻翔大雞雞");
+      const previews = filteredFiles.map((file) => URL.createObjectURL(file));
+      setImagePreviews([...imagePreviews, ...previews]);
     } catch (error) {
       console.error('發生错误:', error);
     }
-
-    const previews = filteredFiles.map((file) => URL.createObjectURL(file));
-    setImagePreviews([...imagePreviews, ...previews]);
   };
 
   // 文件下載 //modified
@@ -80,12 +55,17 @@ function Download2() {
     const updatedFiles = [...selectedFiles];
     const updatedPreviews = [...imagePreviews];
 
-    updatedFiles.splice(index, 1); 
-    updatedPreviews.splice(index, 1); 
+    updatedFiles.splice(index, 1);
+    updatedPreviews.splice(index, 1);
 
     setSelectedFiles(updatedFiles);
     setImagePreviews(updatedPreviews);
   };
+
+  useEffect(() => {
+    
+    console.log('Selected Files:', selectedFiles.length);
+  }, [selectedFiles]);
 
   // 刪除預覽
   const handleDeleteAllPreviews = () => {
@@ -162,7 +142,7 @@ function Download2() {
            <div className={styles.downloadInputGrid2}>
             <button className={styles.downloadRemoveAll} onClick={handleDeleteAllPreviews}>Remove all</button>
             </div>
-
+           
             <div className={styles.downloadInputGrid3}>
               <button className={styles.downloadAll} onClick={handleDownloadAll}>Download All</button>
             </div>
