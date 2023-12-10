@@ -14,7 +14,7 @@ function Requirement() {
       answer: "1561561561566165156",
     },
     Requirement2: {
-      question: "天俊是不是大帥哥",
+      question: "天俊好帥 對不對 有柴犬的男人讓人受不了",
       answer: "",
     },
     ID: "",
@@ -22,7 +22,7 @@ function Requirement() {
     LastUpdated: "",
   });
   //const navigate = useNavigate();
- //const [ReqPreviews, setReqPreviews] = useState([]);
+  //const [ReqPreviews, setReqPreviews] = useState([]);
   const [linktostep, setlinktostep] = useState(false);
   const [isDataChecked, setIsDataChecked] = useState(false);
   const location = useLocation();
@@ -91,7 +91,7 @@ function Requirement() {
           answer: "",
         },
         Requirement2: {
-          question: "天俊是不是大帥哥",
+          question: "天俊好帥 對不對 有柴犬的男人讓人受不了",
           answer: "",
         },
         ID: "",
@@ -100,6 +100,7 @@ function Requirement() {
       });
       setlinktostep(false);
       setIsDataChecked(false);
+      //navigate 
       
     } catch (error) {
       console.error("Submission failed:", error);
@@ -134,7 +135,7 @@ function Requirement() {
         </div>
 
         <h3>Question2</h3>
-        <p>天俊是不是大帥哥</p>
+        <p>天俊好帥 對不對 有柴犬的男人讓人受不了</p>
         <div className="prompt">
           <Prompt
             text={reqData.Requirement2.question}

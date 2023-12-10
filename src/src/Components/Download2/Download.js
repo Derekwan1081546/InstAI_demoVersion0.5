@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Download2() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get('id');
   const projectname = searchParams.get('projectname');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
-  const [username, setUsername] = useState("");  // 沒有使用到 
+  //const [username, setUsername] = useState(""); 
   const [filename, setFilename] = useState(""); 
   // 文件選擇
   const handleFileSelect = async (event) => {
@@ -33,7 +33,8 @@ function Download2() {
     setSelectedFiles(filteredFiles);
 
     try {
-      console.log('發送请求到URL:', 'http://localhost:8080/api/upload/download');//?filename=${filename}&username=${username}
+      console.log('發送请求到URL:', 'http://localhost:8080/api/upload/download');
+      //?filename=${filename}&username=${username}
       // const response = await fetch('http://localhost:8080/api/upload/download', {
       //   method: 'GET',
       //   body: formData,

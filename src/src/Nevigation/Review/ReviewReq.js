@@ -7,22 +7,21 @@ function ReviewReq() {
   const [reqData, setReqData] = useState({});
 
   useEffect(() => {
+    console.log("ReviewReq useEffect triggered");
     const fetchData = async () => {
       try {
-        // 获取数据
+        // fetchData
         const response = await axios.get(`http://localhost:8080/api/upload/requirement/?username=${id}&projectname=${projectname}`);
         setReqData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
   }, [id, projectname]);
 
-  const saveDataToBackend = async () => {
+  /*const saveDataToBackend = async () => {
     try {
-
       const response = await axios.post('http://localhost:8080/api/upload/save-data', {
         username: id,
         projectname: projectname,
@@ -32,7 +31,7 @@ function ReviewReq() {
     } catch (error) {
       console.error('Error saving data to backend:', error);
     }
-  };
+  };*/
 
   return (
     <div>
@@ -45,7 +44,7 @@ function ReviewReq() {
         <p>Answer 2: {reqData.Requirement2?.answer}</p>
       </div>
 
-      <button onClick={saveDataToBackend}>Save Data to Backend</button>
+     
     </div>
   );
 }

@@ -1,11 +1,24 @@
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 function ReviewImg() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const { id, projectname } = useParams();
-  const imagePreviews = location.state?.imagePreviews || [];
+  const [imagePreviews, setImagePreviews] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/upload/upload?username=${id}&projectname=${projectname}`);
+        setImagePreviews(response.data);
+      } catch (error) {
+        console.error('Error fetching image previews:', error);
+      }
+    };
+  
+    fetchData();
+  }, [id, projectname]);
+  
   return (
     <div>
       <h2>Image Preview</h2>
