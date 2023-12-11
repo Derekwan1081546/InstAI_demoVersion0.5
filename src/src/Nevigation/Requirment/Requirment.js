@@ -5,7 +5,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import "./Requirment.css";
 import InstAI_icon from "../../image/instai_icon.png";
 //import ReviewReq from "../Review/ReviewReq";
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 function Requirement() {
   const [reqData, setReqData] = useState({
