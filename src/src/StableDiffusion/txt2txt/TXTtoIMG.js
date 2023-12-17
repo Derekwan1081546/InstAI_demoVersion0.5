@@ -192,8 +192,19 @@ function TxtPage() {
 
       <div className="txt2img-tempDemo-grid">
       <div className="txt2img-tempDemo">
-       
+
       {images.map((base64, index) => (
+        <span key={index} className="image-item">
+          {`data:image/png;base64,${base64}` ? ( // Check if dataURL is not empty
+            <img src={`data:image/png;base64,${base64}`} alt={`Image ${index}`} loading="lazy" />
+          ) : (
+            <p>Error loading image</p>
+          )}
+          <button onClick={() => downloadSingleImage(`data:image/png;base64,${base64}`, index)}>下載</button>
+        </span>
+      ))}
+
+      {/* {images.map((base64, index) => (
         <div key={index} className="image-item">
           {dataURL ? ( // Check if dataURL is not empty
             <img src={dataURL} alt={`Image ${index}`} loading="lazy" />
@@ -202,7 +213,7 @@ function TxtPage() {
           )}
           <button onClick={() => downloadSingleImage(dataURL, index)}>下載</button>
         </div>
-      ))}
+      ))} */}
       </div>
       </div>
 

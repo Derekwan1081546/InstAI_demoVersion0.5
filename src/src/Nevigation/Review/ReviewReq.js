@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 function ReviewReq() {
@@ -46,6 +46,9 @@ function ReviewReq() {
   return (
     <div>
       <h2>Data Preview</h2>
+      <NavLink to={`/Step?id=${id}&project=${projectname}`}>
+            <button >Go Back</button>
+      </NavLink>
       <div>
         {reqData.Requirement1 && (
         <>

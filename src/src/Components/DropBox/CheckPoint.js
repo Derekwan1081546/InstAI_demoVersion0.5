@@ -41,14 +41,14 @@ function CheckPoint({ value, onChange }) {
         {selectedValue || '選擇一個值'}
       </button>
       <ul className={`dropdown-menu ${isOpen ? 'active' : ''}`}>
-        {/* <li onClick={() => handleOptionClick("sd-v1-5-inpainting.ckpt [c6bbc15e32]")}>sd-v1-5-inpainting.ckpt [c6bbc15e32]</li>
-        <li onClick={() => handleOptionClick(2)}>2</li>
+        <li onClick={() => handleOptionClick("sd-v1-5-inpainting.ckpt [c6bbc15e32]")}>sd-v1-5-inpainting.ckpt [c6bbc15e32]</li>
+        {/* <li onClick={() => handleOptionClick(2)}>2</li>
         <li onClick={() => handleOptionClick(3)}>3</li> */}
-        {fileList.map((filename, index) => (
+        {/* {fileList.map((filename, index) => (
           <li key={index} onClick={() => handleOptionClick(filename)}>
             {filename}
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
