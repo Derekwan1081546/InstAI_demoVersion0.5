@@ -47,7 +47,10 @@ const Login = ({ setUserState }) => {
       axios
         .post("http://localhost:8080/api/account/login", user)
         .then((res) => {
-          alert("Log in Success!");
+          if(res.data.includes("Faile"))
+            alert("Log in failed!");
+          else
+            alert("Log in Success!");
           if (res.data.includes("Success")) {
             //setUserState(res.data.user);
             const remove = "Success";

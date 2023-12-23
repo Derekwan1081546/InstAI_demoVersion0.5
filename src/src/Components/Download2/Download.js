@@ -172,9 +172,6 @@ function Download2() {
             <button className={styles.downloadSingleImg}  onClick={() => handleDownload(selectedFiles[index])}>Download</button>
           </span>
 
-         
-       
-       
       
         ))}
       </div>

@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";  // 修改R
+import React, { useState, createContext, useContext } from 'react';
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import MainPage from "./Nevigation/mainPage/MainPage";
@@ -15,17 +15,23 @@ import Catchimg from "./StableDiffusion/CatchIMG/Catchimg";
 import Project  from "./Nevigation/ProjectPage/Project";
 import CreatePage from "./Nevigation/CreatePage/Create";
 import Step from "./Nevigation/Step1/Step";
-import ReviewImg from "./Nevigation/Review/ReviewIMG";
+import ConfirmImg from "./Nevigation/Confirm/ConfirmIMG";
 import Requirement from "./Nevigation/Requirment/Requirment";
-import ReviewReq from "./Nevigation/Review/ReviewReq";
+import ConfirmReq from "./Nevigation/Confirm/ConfirmReq";
+import Model     from "./Nevigation/Model/Model";
+
+export const ConfirmContext = createContext();
 
 function App() {
   const [userstate, setUserState] = useState({});
+  const [confirmStatusImg, setConfirmStatusImg] = useState(localStorage.getItem('confirmStatusImg') === 'true' ? true : false);
+  const [confirmDtatueReq, setConfirmStatueReq] = useState(localStorage.getItem("confirmStatueReq") === 'true' ? true : false);
   return (
     <div className="App">
+      <ConfirmContext.Provider value={{ confirmStatusImg, setConfirmStatusImg, confirmDtatueReq, setConfirmStatueReq }}>
+  
       <Router>
         <Routes>
-
           <Route path="/" element={<Register/>}></Route>
           <Route path="/MainPage" element={<MainPage/>}></Route>
           <Route path="/login" element={<Login setUserState={setUserState} />}></Route>
@@ -41,11 +47,13 @@ function App() {
           <Route path="/Requirment" element={<Requirement/>}></Route>
           <Route path="/Step" element={<Step/>}></Route>
           <Route path="/CreatePage" element={<CreatePage/>}></Route>
-          <Route path="/ReviewImg" element={<ReviewImg/>}></Route>
-          <Route path="/ReviewReq" element={<ReviewReq/>}></Route>
+          <Route path="/ConfirmImg" element={<ConfirmImg/>}></Route>
+          <Route path="/ConfirmReq" element={<ConfirmReq/>}></Route>
+          <Route path="/Model"     element={<Model/>}></Route>
 
         </Routes>
       </Router>
+      </ConfirmContext.Provider>
     </div>
   );
 }

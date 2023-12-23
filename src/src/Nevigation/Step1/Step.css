@@ -22,7 +22,6 @@
   height: auto;
 }
 
-
 .allProjects {
   color: #6d51ee;
   font-size: 18px;
@@ -222,7 +221,7 @@
   border-radius: 4px;
   font-size: 20px;
   position: absolute;
-  top: 20px;
+  top: 10px;
   left: 700px;
   width: 200px;
   height: 60px;
@@ -255,7 +254,7 @@
   border-radius: 4px;
   font-size: 20px;
   position: absolute;
-  top: 5px;
+  top: -15px;
   left: 700px;
   width: 200px;
   height: 60px;
@@ -268,13 +267,24 @@
   border-radius: 4px;
   font-size: 15px;
   position: absolute;
-  top: 80px; 
+  top: 50px; 
   left: 700px;
   width: 200px;
   height: 60px;
 }
 
-
+.upload-buttonNo5 {
+  background-color: #5a5a5a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  position: absolute;
+  top: 20px; 
+  left: 700px;
+  width: 200px;
+  height: 60px;
+}
 .frameNo4 {
   width: 900px;
   height: 70px;

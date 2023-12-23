@@ -26,14 +26,14 @@ import UpscaleBy from "../../Components/ForHireFix/UpscaleBy";
 import HireSteps from "../../Components/ForHireFix/HireSteps";
 import ResizeHeight from "../../Components/ForHireFix/ResizeHeight";
 import ResizeWidth from "../../Components/ForHireFix/ResizeWidth";
-import InstAI_icon from "../../image/instai_icon.png";
+//import InstAI_icon from "../../image/instai_icon.png";
 
 /*1*/
 function TxtPage() {
   const [images, setImages] = useState([]);
   const [dataURL,seturl] = useState([])
   const [error, setError] = useState(null);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  //const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isHiresChecked, setIsHiresChecked] = useState(false);
   const [formData, setFormData] = useState({
     enable_hr: false,

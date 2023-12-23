@@ -1,4 +1,1 @@
-verion0.5 技術改善list
-1. 修改requirment 提交之問題
-2. 增加事件監聽eventEmitter 
-3. 增加image 處理
+組件回傳資料 
