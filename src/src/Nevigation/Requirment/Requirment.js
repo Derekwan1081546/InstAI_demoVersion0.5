@@ -52,9 +52,14 @@ function Requirement() {
   };
 
   const handleGenerateClick = async () => {
-   
-    if (reqData.Requirement1.answer.trim() === "" || reqData.Requirement2.answer.trim() === "") {
-      alert("Requirement answers cannot be empty!");
+    const answer1Length = reqData.Requirement1.answer.trim().length;
+    const answer2Length = reqData.Requirement2.answer.trim().length;
+    // 增加字數限制 必須超過100字
+    //if (answer1Length < 100 || answer2Length < 100) {
+    //  alert("Answers cannot less than 100 characters ! please give detailed description.");
+    //} 
+   if (answer1Length === 0 || answer2Length === 0) {
+      alert("Please answer both questions.");
     } else {
       const confirmed = window.confirm(
         `Are you sure you want to submit?\n\nData to be submitted:\n${JSON.stringify(
@@ -124,6 +129,7 @@ function Requirement() {
 
       <div className="requirement-form">
         <h2>Requirement</h2>
+        {/*<h2>Please give detail description ! answer wach question more than 100 characters</h2>*/}
         <h3>Question1</h3>
         <p>What is the type of location/environment that the AI model will be used?</p>
         <div className="prompt">
