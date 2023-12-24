@@ -27,16 +27,16 @@ function Download2() {
       allowedFileTypes.includes(file.type)
     );
  
-    setSelectedFiles(filteredFiles);
-  
+    //setSelectedFiles(filteredFiles);
+    setSelectedFiles((prevFiles) => [...prevFiles, ...filteredFiles]);//modify:選擇檔案可以不要覆蓋先前選擇的檔案，而是可以疊加圖片上去
+
     try {
       // 刪掉axios.get
-      console.log("彥君大帥哥");
-      console.log("喻翔大雞雞");
       const previews = filteredFiles.map((file) => URL.createObjectURL(file));
-      setImagePreviews([...imagePreviews, ...previews]);
+      //setImagePreviews([...imagePreviews, ...previews]);
+      setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);//modify:選擇檔案可以不要覆蓋先前選擇的檔案，而是可以疊加圖片上去
     } catch (error) {
-      console.error('發生错误:', error);
+      console.error('發生錯誤:', error);
     }
   };
 
@@ -105,7 +105,7 @@ function Download2() {
         alert('upload success')
       })
       .catch(error => {
-        console.error(error);
+        console.error(1233+error);
         // Handle error
       });
       console.log(response);

@@ -24,6 +24,11 @@ function Step() {
               </div>
           </div>
         </div>
+        <div className="create-projectPage">
+          <NavLink to={`/Project?id=${userid}&type=1`} className="projectPageLink">
+            <button className="projectPageButton">返回專案頁面</button>
+          </NavLink>
+        </div>
         <div className="main-grid-line"></div>
         <h1 className='main-projectTitle'>
         Traffic cone 

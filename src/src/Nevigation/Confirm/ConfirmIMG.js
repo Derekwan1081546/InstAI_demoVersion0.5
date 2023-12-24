@@ -6,6 +6,7 @@ import InstAI_icon from '../../image/instai_icon.png';
 
 function ConfirmImg() {
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [imagePreviews2, setImagePreviews2] = useState([]);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get('id');
@@ -13,17 +14,16 @@ function ConfirmImg() {
 
   const [confirm1Data, setConfirm1Data] = useState(localStorage.getItem('confirmStatusImg') === 'true');
   const [selectedFiles, setSelectedFiles] = useState([]);
-
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/upload/download?username=${id}&projectname=${projectname}`);
+      console.log(response.data.images);
+      setImagePreviews(response.data.images);
+    } catch (error) {
+      console.error('Error fetching image previews:', error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/upload/download?username=${id}&projectname=${projectname}`);
-        setImagePreviews(response.data.images);
-      } catch (error) {
-        console.error('Error fetching image previews:', error);
-      }
-    };
-
     fetchData();
   }, [id, projectname]);
 
@@ -41,11 +41,10 @@ function ConfirmImg() {
     if (!confirmDelete) {
       return;
     }
-
     const updatedPreviews = [...imagePreviews];
     const deletedImage = updatedPreviews.splice(index, 1)[0];
-    setImagePreviews(updatedPreviews);
 
+    setImagePreviews(updatedPreviews);
     try {
       await axios.post(`http://localhost:8080/api/upload/deleteimg?username=${id}&projectname=${projectname}`, { filename: deletedImage });
       alert('Delete success');
@@ -54,24 +53,55 @@ function ConfirmImg() {
     }
   };
 
+  const handleDeletepreviewImage = (index) => {
+    const updatedFiles = [...selectedFiles];
+    const updatedPreviews = [...imagePreviews2];
+
+    updatedFiles.splice(index, 1);
+    updatedPreviews.splice(index, 1);
+
+    setSelectedFiles(updatedFiles);
+    setImagePreviews2(updatedPreviews);
+  };
+
+  // const handleFileSelect = async (event) => {
+  //   const files = event.target.files;
+  //   const fileArray = Array.from(files);
+
+  //   const allowedFileTypes = ['image/jpeg', 'image/png'];
+  //   const filteredFiles = fileArray.filter((file) =>
+  //     allowedFileTypes.includes(file.type)
+  //   );
+
+  //   setSelectedFiles(filteredFiles);
+
+  //   try {
+  //     const previews = filteredFiles.map((file) => URL.createObjectURL(file));
+  //     setImagePreviews2([...imagePreviews2, ...previews]);
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
   const handleFileSelect = async (event) => {
     const files = event.target.files;
     const fileArray = Array.from(files);
-
+  
     const allowedFileTypes = ['image/jpeg', 'image/png'];
     const filteredFiles = fileArray.filter((file) =>
       allowedFileTypes.includes(file.type)
     );
-
-    setSelectedFiles(filteredFiles);
-
+  
+    // Concatenate the new files with the existing ones
+    setSelectedFiles((prevFiles) => [...prevFiles, ...filteredFiles]);
+  
     try {
       const previews = filteredFiles.map((file) => URL.createObjectURL(file));
-      setImagePreviews([...imagePreviews, ...previews]);
+      setImagePreviews2((prevPreviews) => [...prevPreviews, ...previews]);
     } catch (error) {
       console.error('Error:', error);
     }
   };
+
 
   const handleUpload = async () => {
     const confirmUpload = window.confirm('確定要新增圖片?');
@@ -83,13 +113,17 @@ function ConfirmImg() {
     for (let i = 0; i < selectedFiles.length; ++i) {
       formData.append('file', selectedFiles[i]);
     }
-
+    console.log(selectedFiles.length);
     try {
       const response = await axios.post(`http://localhost:8080/api/upload/upload?username=${id}&projectname=${projectname}`, formData);
       console.log(response.data);
       alert('Upload success');
+      setSelectedFiles([]);
+      setImagePreviews2([]);
+      fetchData();
     } catch (error) {
       console.error('Error uploading images:', error);
+      alert('Upload failed');
     }
   };
 
@@ -113,10 +147,40 @@ function ConfirmImg() {
               style={{ width: '128px', height: '128px' }}
               loading="lazy"
             />
+            {/* {preview.startsWith('/uploads') ? (
+              // External URL
+              <img
+              src={`http://localhost:8080${preview}`}
+                alt={`image ${index}`}
+                style={{ width: '128px', height: '128px' }}
+                loading="lazy"
+              />
+            ) : (
+              // Local preview
+              <img
+                src={preview}
+                alt={`image ${index}`}
+                style={{ width: '128px', height: '128px' }}
+                loading="lazy"
+              />
+            )} */}
             <button className="delete-button" onClick={() => handleDeleteImage(index)}>
               刪除
             </button>
           </div>
+        ))}
+        {imagePreviews2.map((preview, index) => (
+        <div key={index} className="image-preview">
+          <img
+              src={preview}
+              alt={`image ${index}`}
+              style={{ width: '128px', height: '128px' }}
+              loading="lazy"
+            />
+          <button className="delete-button" onClick={() => handleDeletepreviewImage(index)}>
+              刪除
+          </button>
+        </div>
         ))}
       </div>
       <input type="file" accept="image/*" multiple name="images" onChange={handleFileSelect} />
