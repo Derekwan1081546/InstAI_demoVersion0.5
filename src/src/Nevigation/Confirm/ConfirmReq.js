@@ -5,7 +5,19 @@ import './ConfirmSTR.css'; // Import the CSS file
 import InstAI_icon from '../../image/instai_icon.png';
 
 function ConfirmReq() {
-  const [reqData, setReqData] = useState({});
+  const [reqData, setReqData] = useState({
+    Requirement1: {
+      question: "What is the type of location/environment that the AI model will be used?",
+      answer: "",
+    },
+    Requirement2: {
+      question: "天俊好帥 對不對 有柴犬的男人讓人受不了",
+      answer: "",
+    },
+    ID: "",
+    author: "",
+    LastUpdated: "",
+  });
   const [editable, setEditable] = useState(false);
   const [confirm2Data, setConfirm2Data] = useState(localStorage.getItem('confirmStatusImg') === 'true');
   const location = useLocation();
@@ -19,6 +31,7 @@ function ConfirmReq() {
         `http://localhost:8080/api/upload/getrequirement/?username=${id}&projectname=${projectname}`
       );
       const responseData = response.data.content;
+      console.log(responseData);
       const parsedData = {};
       responseData.forEach(item => {
         const parsedItem = JSON.parse(`{${item}}`);
@@ -44,28 +57,35 @@ function ConfirmReq() {
   };
 
   const handleSaveButtonClick = async () => {
+    const updatedData = {
+      Requirement1: {
+        question: reqData.Requirement1.question,
+        answer: editable ? document.getElementById('editedAnswer1').innerText : reqData.Requirement1.answer,
+      },
+      Requirement2: {
+        question: reqData.Requirement2.question,
+        answer: editable ? document.getElementById('editedAnswer2').innerText : reqData.Requirement2.answer,
+      },
+      ID: projectname,
+      author: id,
+      LastUpdated: new Date().toLocaleString(),
+    };
+    console.log(updatedData);
+    const requestData = {
+      method: "POST",
+      request: updatedData,
+      response: {
+        message: "傳輸成功",
+      },
+    };
     try {
-      const updatedData = {
-        Requirement1: {
-          question: reqData.Requirement1.question,
-          answer: editable ? document.getElementById('editedAnswer1').innerText : reqData.Requirement1.answer,
-        },
-        Requirement2: {
-          question: reqData.Requirement2.question,
-          answer: editable ? document.getElementById('editedAnswer2').innerText : reqData.Requirement2.answer,
-        },
-        ID: id,
-        author: '',
-        LastUpdated: new Date().toLocaleString(),
-      };
-
       const response = await axios.post(
         `http://localhost:8080/api/upload/requirement/?username=${id}&projectname=${projectname}`,
-        { data: updatedData }
+        requestData
       );
 
       console.log('Data updated successfully:', response.data);
-
+      alert("Data updated successfully!");
       fetchData();
       setEditable(false);
     } catch (error) {

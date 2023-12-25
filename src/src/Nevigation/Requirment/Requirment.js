@@ -11,7 +11,7 @@ function Requirement() {
   const [reqData, setReqData] = useState({
     Requirement1: {
       question: "What is the type of location/environment that the AI model will be used?",
-      answer: "1561561561566165156",
+      answer: "",
     },
     Requirement2: {
       question: "天俊好帥 對不對 有柴犬的男人讓人受不了",
